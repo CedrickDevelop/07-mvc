@@ -1,0 +1,16 @@
+{
+    "name": "houcem/mvc-sfdup03",
+    "description": "MVC Framework with PHP",
+    "authors": [
+        {
+            "name": "Houcem Hedhly",
+            "email": "hedhoucem@gmail.com"
+        }
+    ],
+    "autoload" : {
+        "psr-4": {
+            "App\\": "./"
+        }
+    },
+    "require": {}
+}
