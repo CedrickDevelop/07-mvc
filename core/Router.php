@@ -1,18 +1,13 @@
 <?php
 
+namespace App\Core;
+
 class Router
 {
-    
 
-  private function get($get){
+  private $routes = []; 
 
-
-
-      switch ($get){
-        case '' :
-          'index.php'; 
-          break;
-
-      }
+  public function get($path, $callback){
+      $this->routes['get'][$path] = $callback;
   }
 }
