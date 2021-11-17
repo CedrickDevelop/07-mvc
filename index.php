@@ -16,7 +16,7 @@ $app->router->get('/contact', function() {
 
 $app->run();
 
-// echo "Hello";
+echo "Hello";
 
 
 
