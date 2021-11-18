@@ -3,19 +3,22 @@
 namespace App\Core;
 
 use App\Core\Request;
+use App\Core\Response;
 
 class Router
 {
   protected $routes = [];
   public Request $request;
+  public Response $response;
 
   /**
    * Router constructor.
    * @param Request $request
    * @return void
    */
-  public function __construct(Request $request)
+  public function __construct(Request $request, Response $response)
   {
+    $this->response = $response;
     $this->request = $request;
   }
 
@@ -52,7 +55,7 @@ class Router
     $callback = $this->routes[$method][$path] ?? false;
 
     if (!$callback) {
-      header('HTTP/1.0 404 Not Found');
+      $this->response->setCodeHeader(404);
       return "404 | Not Found";
     }
 
