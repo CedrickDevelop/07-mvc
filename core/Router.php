@@ -45,7 +45,7 @@ class Router
   }
 
   /**
-   * resolve the request with approriate callback
+   * resolve the request with appropriate callback
    * @return callable|string
    */
   public function resolve()
