@@ -48,9 +48,25 @@ class Router
   // Methode render qui renvoi la vue
   public function renderView($view)
   {
+      $content = $this->renderContent($view);
+      $layout = $this->renderLayout();
+
+      return str_replace("{{ content }}", $content, $layout );
+  }
+  
+  // Methode render pour le template
+  public function renderContent($view)
+  {
     ob_start();
-     include_once __DIR__ . '/../views/'.$view.'.php';  
-    $content = ob_get_clean();
-    include_once __DIR__ . '/../views/default.twig';
+    include_once __DIR__ . '/../views/'.$view.'.php';  
+    return ob_get_clean();
+  }
+  
+  // Methode render pour le layout
+  public function renderLayout()
+  {
+    ob_start();
+      include_once __DIR__ . '/../views/default.phtml'; 
+    return ob_get_clean();
   }
 }
