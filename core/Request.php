@@ -6,7 +6,10 @@
   class Request 
   {
 
-    // Recuperation de l'adresse sur laquelle on se trouve
+    /**
+     * return the request path
+     * @return string
+     */
     public function getPath(){
 
       // Le chemin de l'adresse  
@@ -22,6 +25,10 @@
       return substr($path, 0, $pos);
     }
 
+    /**
+     * retourne la methode en petit caractères
+     * @return string
+     */
     public function getMethod()
     {
         return strtolower($_SERVER['REQUEST_METHOD']) ?? 'get';

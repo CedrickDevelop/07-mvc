@@ -9,13 +9,20 @@ class Application
     public Router $router;
     public Request $request;
 
-    // On appelle le router pour connaitre les pages
+    /**
+     * Application constructeur
+     * @return void
+     */
     public function __construct()
     {
         $this->request = new Request();
         $this->router = new Router($this->request);
     }
 
+    /**
+     * Affichage de la vue
+     * @return void
+     */
     public function run()
     {
        echo $this->router->resolve();

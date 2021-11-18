@@ -11,41 +11,54 @@ class Router
   private $routes = []; 
   public Request $request;
 
-  // On definit un constructeur pour initialiser la reponse
+  /**
+   * @param Request $request
+   * @return void
+   */
   public function __construct(Request $request){
     $this->request = $request;
   }
 
-  // Definir quelle page ouvrir en fonction de l'url
+  /**
+   * obtenir la route retour
+   * @param string $path
+   * @param string|callable $callback
+   * @return void
+   */
   public function get($path, $callback){
       $this->routes['get'][$path] = $callback;
   }
-
+  
+  /**
+   * algorythme de recherche de pages
+   * @return string|false|void
+   */
   public function resolve()
-  {
-
-    // On cree la route pour y accéder
+  {    
     $path = $this->request->getPath();
     $method = $this->request->getMethod();
     $callback = $this->routes[$method][$path] ?? false;
 
-    // Si il n'y a pas de callback car la route ne correspond pas il ouvre la page 404
+    // page 404
     if (!$callback) {
         echo "404 | Not Found";
         exit;
     } 
     
-    //appelle de la methode
+    //appelle de la vue
     if (is_string($callback)){
       return $this->renderView($callback);
     }
 
-    // On active la function du callback
+    // callback actif si appelle de fonction
     echo call_user_func($callback);
-
   }
 
-  // Methode render qui renvoi la vue
+  /**
+   * Met à jour la vue avec le layout et le template
+   * @param mixed $view
+   * @return string|false
+   */
   public function renderView($view)
   {
       $content = $this->renderContent($view);
@@ -54,7 +67,11 @@ class Router
       return str_replace("{{ content }}", $content, $layout );
   }
   
-  // Methode render pour le template
+  /**
+   * recherche le template
+   * @param mixed $view
+   * @return string|false
+   */
   public function renderContent($view)
   {
     ob_start();
@@ -62,7 +79,11 @@ class Router
     return ob_get_clean();
   }
   
-  // Methode render pour le layout
+  /**
+   * recherche le layout
+   * @param mixed $view
+   * @return string|false
+   */
   public function renderLayout()
   {
     ob_start();
