@@ -11,13 +11,14 @@ $app->router->get('/', function() {
     return "hello world !";
 });
 
-$app->router->get('/contact', function() {
-    return "contact page !";
-});
+// $app->router->get('/contact', function() {
+//     return "contact page !";
+// });
+
+$app->router->get('/contact','ContactManager');
 
 $app->run();
 
-echo 'Hello';
 
 
 

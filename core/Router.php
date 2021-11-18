@@ -3,6 +3,7 @@
 namespace App\Core;
 
 use App\Core\Request;
+use App\Controller\contactManager;
 
 class Router
 {
@@ -28,13 +29,27 @@ class Router
     $method = $this->request->getMethod();
     $callback = $this->routes[$method][$path] ?? false;
 
+    var_dump($this->routes);
+
     // Si il n'y a pas de callback car la route ne correspond pas il ouvre la page 404
     if (!$callback) {
         echo "404 | Not Found";
         exit;
     }
 
+    //appelle de la methode
+    $this->callController($callback);
+
     // On active la function du callback
     echo call_user_func($callback);
+
+    
+  }
+
+  // Appelle deu controleur
+  public function callController($nameController){
+    $view = new $nameController();
+    $view->getView();
+    
   }
 }
