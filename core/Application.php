@@ -3,12 +3,14 @@
 namespace App\Core;
 
 use App\Core\Router;
+use App\Core\Response;
 
 class Application
 {
     public static string $ROOT_DIR;
     public Router $router;
     public Request $request;
+    public Response $response;
 
     /**
      * Application constructor.
@@ -19,7 +21,8 @@ class Application
     {
         self::$ROOT_DIR = $rootPath;
         $this->request = new Request();
-        $this->router = new Router($this->request);
+        $this->response = new Response();
+        $this->router = new Router($this->request, $this->response);
     }
 
     /**
