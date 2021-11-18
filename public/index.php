@@ -13,6 +13,7 @@ $app->router->get('/', function() {
 
 
 $app->router->get('/contact','contact');
+$app->router->get('/accueil','home');
 
 $app->run();
 
