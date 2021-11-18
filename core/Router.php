@@ -3,51 +3,98 @@
 namespace App\Core;
 
 use App\Core\Request;
-use App\Controller\ContactManager;
 
 class Router
 {
-
-  private $routes = []; 
+  protected $routes = [];
   public Request $request;
 
-  // On definit un constructeur pour initialiser la reponse
-  public function __construct(Request $request){
+  /**
+   * Router constructor.
+   * @param Request $request
+   * @return void
+   */
+  public function __construct(Request $request)
+  {
     $this->request = $request;
   }
 
-  // Definir quelle page ouvrir en fonction de l'url
-  public function get($path, $callback){
-      $this->routes['get'][$path] = $callback;
+  /**
+   * subscribe get request to the router
+   * @param string $path
+   * @param callable|string $callback
+   * @return void
+   */
+  public function get($path, $callback)
+  {
+    $this->routes['get'][$path] = $callback;
   }
 
+  /**
+   * subscribe post request to the router
+   * @param string $path
+   * @param callable|string $callback
+   * @return void
+   */
+  public function post($path, $callback)
+  {
+    $this->routes['post'][$path] = $callback;
+  }
+
+  /**
+   * resolve the request with approriate callback
+   * @return callable|string
+   */
   public function resolve()
   {
-
-    // On cree la route pour y accéder
     $path = $this->request->getPath();
     $method = $this->request->getMethod();
     $callback = $this->routes[$method][$path] ?? false;
 
-    // Si il n'y a pas de callback car la route ne correspond pas il ouvre la page 404
     if (!$callback) {
-        echo "404 | Not Found";
-        exit;
-    } 
-    
-    //appelle de la methode
-    if (is_string($callback)){
+      header('HTTP/1.0 404 Not Found');
+      return "404 | Not Found";
+    }
+
+    if (is_string($callback)) {
       return $this->renderView($callback);
     }
 
-    // On active la function du callback
-    echo call_user_func($callback);
-
+    return call_user_func($callback);
   }
 
-  // Methode render qui renvoi la vue
+  /**
+   * render view
+   * @param string $view
+   * @return string
+   */
   public function renderView($view)
   {
-      include_once __DIR__ . '/../views/' . $view . '.phtml';
+    $layoutContent = $this->layoutContent();
+    $viewContent = $this->viewContent($view);
+    return str_replace('{{ content }}', $viewContent, $layoutContent);
+  }
+
+  /**
+   * get layout content
+   * @return string
+   */
+  public function layoutContent()
+  {
+    ob_start();
+    include_once Application::$ROOT_DIR . "/views/layouts/main.php";
+    return ob_get_clean();
+  }
+
+  /**
+   * get view content
+   * @param string $view
+   * @return string
+   */
+  public function viewContent($view)
+  {
+    ob_start();
+    include_once Application::$ROOT_DIR . "/views/{$view}.php";
+    return ob_get_clean();
   }
 }
