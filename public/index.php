@@ -14,6 +14,7 @@ $app->router->get('/', function() {
 
 $app->router->get('/contact','contact');
 $app->router->get('/accueil','home');
+$app->router->get('/404','404');
 
 $app->run();
 

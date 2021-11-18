@@ -70,7 +70,7 @@ class Router
   /**
    * recherche le template
    * @param mixed $view
-   * @return string|false
+   * @return string
    */
   public function renderContent($view)
   {
@@ -82,7 +82,7 @@ class Router
   /**
    * recherche le layout
    * @param mixed $view
-   * @return string|false
+   * @return string
    */
   public function renderLayout()
   {
