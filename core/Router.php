@@ -12,14 +12,12 @@ class Router
 
   // On definit un constructeur pour initialiser la reponse
   public function __construct(Request $request){
-    $this->request = new Request();
+    $this->request = $request;
   }
 
   // Definir quelle page ouvrir en fonction de l'url
   public function get($path, $callback){
       $this->routes['get'][$path] = $callback;
-
-      var_dump($callback);
   }
 
   public function resolve()
