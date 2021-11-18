@@ -9,12 +9,13 @@ namespace app\Controller;
     private $view;
 
     // Appelle la vue
-      public function getView(){
-        return "hello";
-      }
+      static public function getView(){
+        //adresse de la vue 
+        $view = __DIR__.'/views/contact.phtml';
 
-      //Definit l'appelel de la vue
-      public function setView(){
+        require ('../views/contact.phtml');
+        // require (__DIR__.'/views/contact.phtml');
+        // header('Location:'.$view);
 
       }
 
