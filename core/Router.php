@@ -3,26 +3,48 @@
 namespace App\Core;
 
 use App\Core\Request;
-use App\Controller\ContactManager;
 
 class Router
 {
-
-  private $routes = [];
+  protected $routes = [];
   public Request $request;
 
-  // On definit un constructeur pour initialiser la reponse
+  /**
+   * Router constructor.
+   * @param Request $request
+   * @return void
+   */
   public function __construct(Request $request)
   {
     $this->request = $request;
   }
 
-  // Definir quelle page ouvrir en fonction de l'url
+  /**
+   * subscribe get request to the router
+   * @param string $path
+   * @param callable|string $callback
+   * @return void
+   */
   public function get($path, $callback)
   {
     $this->routes['get'][$path] = $callback;
   }
 
+  /**
+   * subscribe post request to the router
+   * @param string $path
+   * @param callable|string $callback
+   * @return void
+   */
+  public function post($path, $callback)
+  {
+    $this->routes['post'][$path] = $callback;
+  }
+
+  /**
+   * resolve the request with approriate callback
+   * @return callable|string
+   */
   public function resolve()
   {
     $path = $this->request->getPath();
@@ -30,6 +52,7 @@ class Router
     $callback = $this->routes[$method][$path] ?? false;
 
     if (!$callback) {
+      header('HTTP/1.0 404 Not Found');
       return "404 | Not Found";
     }
 
@@ -40,8 +63,38 @@ class Router
     return call_user_func($callback);
   }
 
+  /**
+   * render view
+   * @param string $view
+   * @return string
+   */
   public function renderView($view)
   {
-    include_once __DIR__ . '/../views/' . $view . '.php';
+    $layoutContent = $this->layoutContent();
+    $viewContent = $this->viewContent($view);
+    return str_replace('{{ content }}', $viewContent, $layoutContent);
+  }
+
+  /**
+   * get layout content
+   * @return string
+   */
+  public function layoutContent()
+  {
+    ob_start();
+    include_once Application::$ROOT_DIR . "/views/layouts/main.php";
+    return ob_get_clean();
+  }
+
+  /**
+   * get view content
+   * @param string $view
+   * @return string
+   */
+  public function viewContent($view)
+  {
+    ob_start();
+    include_once Application::$ROOT_DIR . "/views/{$view}.php";
+    return ob_get_clean();
   }
 }
