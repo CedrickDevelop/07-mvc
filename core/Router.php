@@ -48,6 +48,9 @@ class Router
   // Methode render qui renvoi la vue
   public function renderView($view)
   {
-      include_once __DIR__ . '/../views/' . $view . '.phtml';
+    ob_start();
+     include_once __DIR__ . '/../views/'.$view.'.php';  
+    $content = ob_get_clean();
+    include_once __DIR__ . '/../views/default.twig';
   }
 }
