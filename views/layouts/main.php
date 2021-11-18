@@ -13,7 +13,6 @@
 </head>
 
 <body>
-    <h1>Hello, world!</h1>
     {{ content }}
 
     <!-- Optional JavaScript; choose one of the two! -->

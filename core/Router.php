@@ -56,7 +56,7 @@ class Router
 
     if (!$callback) {
       $this->response->setCodeHeader(404);
-      return "404 | Not Found";
+      return $this->renderView('404Error');
     }
 
     if (is_string($callback)) {
